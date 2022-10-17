@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MovieUpdate</string>
+    <string name="hello_detail">Termukan film favoritmu di sini</string>
+    <string name="popular_title">Film Populer</string>
+    <string name="menu_favorite">Favorit</string>
+    <string name="login_title_form">Masuk</string>
+    <string name="login_description">Masuk untuk mengakses akun Anda</string>
+    <string name="login_username_input_hint">Username</string>
+    <string name="login_password_input_hint">Password</string>
+    <string name="login_button">Masuk</string>
+    <string name="register_title_form">Daftar</string>
+    <string name="register_description">Registrasi akun Anda di sini</string>
+    <string name="register_username_input_hint">Username</string>
+    <string name="register_password_input_hint">Password</string>
+    <string name="register_button">Daftar</string>
+    <string name="register_email_input_hint">Email</string>
+    <string name="register_password_confirm_input_hint">Konfirmasi Password</string>
+    <string name="appbar_profile_title">Ubah Profil</string>
+    <string name="menu_logout">Keluar</string>
+    <string name="button_save_update">Simpan</string>
+    <string name="registration_success">Registrasi Berhasil</string>
+    <string name="update_success">Ubah data berhasil</string>
+    <string name="detail_overview_title">Ringkasan</string>
+    <string name="now_playing">Tayang saat ini</string>
+    <string name="release_label">Rilis</string>
+    <string name="hello">"Halo, "</string>
+    <string name="indonesian_lang">Indonesia</string>
+    <string name="english_lang">Inggris</string>
+    <string name="pass_not_match">Konfirmasi Password tidak sama</string>
+    <string name="required_field">Inputan ini wajib diisi</string>
+    <string name="login_failed">Username atau Password salah</string>
+</resources>
