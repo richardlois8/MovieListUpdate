@@ -1,4 +1,4 @@
-package com.rich.movieupdate.response
+package com.rich.movieupdate.data.response
 
 import com.google.gson.annotations.SerializedName
 

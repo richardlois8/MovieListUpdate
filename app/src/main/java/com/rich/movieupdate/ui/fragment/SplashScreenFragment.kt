@@ -1,6 +1,5 @@
-package com.rich.movieupdate.fragment
+package com.rich.movieupdate.ui.fragment
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -8,16 +7,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.rich.movieupdate.MainActivity
 import com.rich.movieupdate.R
 import com.rich.movieupdate.databinding.FragmentSplashScreenBinding
-import com.rich.movieupdate.datastore.UserManager
+import com.rich.movieupdate.data.local.UserManager
+import com.rich.movieupdate.viewmodel.UserViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SplashScreenFragment : Fragment() {
     private lateinit var binding: FragmentSplashScreenBinding
-    private lateinit var userManager: UserManager
+    private lateinit var userVM : UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,11 +37,13 @@ class SplashScreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        userManager = UserManager(requireContext())
+        userVM = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         var isLogin = false
-        userManager.getIsLogin.asLiveData().observe(viewLifecycleOwner) {
+        userVM.checkIsLogin(viewLifecycleOwner)
+        userVM.observerIsLogin().observe(viewLifecycleOwner) {
             isLogin = it
         }
+
         Handler(Looper.getMainLooper()).postDelayed({
             if(isLogin){
                 findNavController().navigate(R.id.action_splashScreenFragment_to_movieListFragment)

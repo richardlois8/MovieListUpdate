@@ -5,9 +5,15 @@
     android:id="@+id/main_nav"
     app:startDestination="@id/splashScreenFragment">
 
+    <action android:id="@+id/action_global_mainFragment"
+        app:destination="@id/movieListFragment"/>
+
+    <action android:id="@+id/action_global_favoriteFragment"
+        app:destination="@id/favoriteListFragment"/>
+
     <fragment
         android:id="@+id/movieListFragment"
-        android:name="com.rich.movieupdate.fragment.MovieListFragment"
+        android:name="com.rich.movieupdate.ui.fragment.MovieListFragment"
         android:label="fragment_movie_list"
         tools:layout="@layout/fragment_movie_list" >
         <action
@@ -22,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerLoginFragment"
-        android:name="com.rich.movieupdate.fragment.RegisterLoginFragment"
+        android:name="com.rich.movieupdate.ui.fragment.RegisterLoginFragment"
         android:label="fragment_register_login"
         tools:layout="@layout/fragment_register_login" >
         <action
@@ -31,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"
-        android:name="com.rich.movieupdate.fragment.SplashScreenFragment"
+        android:name="com.rich.movieupdate.ui.fragment.SplashScreenFragment"
         android:label="fragment_splash_screen"
         tools:layout="@layout/fragment_splash_screen" >
         <action
@@ -43,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.rich.movieupdate.fragment.ProfileFragment"
+        android:name="com.rich.movieupdate.ui.fragment.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
@@ -52,10 +58,19 @@
     </fragment>
     <fragment
         android:id="@+id/detailMovieFragment"
-        android:name="com.rich.movieupdate.fragment.DetailMovieFragment"
+        android:name="com.rich.movieupdate.ui.fragment.DetailMovieFragment"
         android:label="DetailMovieFragment" >
         <argument
             android:name="movieId"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteListFragment"
+        android:name="com.rich.movieupdate.ui.fragment.FavoriteListFragment"
+        android:label="fragment_favorite_list"
+        tools:layout="@layout/fragment_favorite_list" >
+        <action
+            android:id="@+id/action_favoriteListFragment_to_detailMovieFragment"
+            app:destination="@id/detailMovieFragment" />
     </fragment>
 </navigation>

@@ -12,6 +12,9 @@ import androidx.work.WorkManager
 import com.rich.movieupdate.R
 import com.rich.movieupdate.worker.BlurWorker
 import com.rich.movieupdate.worker.KEY_IMAGE_URI
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
 class BlurViewModel(application: Application) : ViewModel() {
     //  var untuk instance  WorkManager di ViewModel

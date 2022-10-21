@@ -1,5 +1,6 @@
-package com.rich.movieupdate.fragment
+package com.rich.movieupdate.ui.fragment
 
+import android.app.ProgressDialog.show
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
@@ -18,23 +20,27 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
-import com.rich.movieupdate.MainActivity
 import com.rich.movieupdate.R
 import com.rich.movieupdate.adapter.NowPlayingAdapter
 import com.rich.movieupdate.adapter.PosterAdapter
 import com.rich.movieupdate.databinding.FragmentMovieListBinding
-import com.rich.movieupdate.datastore.UserManager
-import com.rich.movieupdate.response.MovieResult
-import com.rich.movieupdate.response.NowPlayingMovieItem
+import com.rich.movieupdate.data.local.UserManager
+import com.rich.movieupdate.data.response.MovieResult
+import com.rich.movieupdate.data.response.NowPlayingMovieItem
+import com.rich.movieupdate.ui.activity.MainActivity
 import com.rich.movieupdate.viewmodel.MovieViewModel
+import com.rich.movieupdate.viewmodel.UserViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.lang.Math.abs
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MovieListFragment : Fragment() {
     private lateinit var binding : FragmentMovieListBinding
     private lateinit var movieVM : MovieViewModel
+    private lateinit var userVM : UserViewModel
     private lateinit var handler: Handler
-    private lateinit var userManager: UserManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,14 +53,14 @@ class MovieListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        movieVM = ViewModelProvider(this).get(MovieViewModel::class.java)
-        userManager = UserManager(requireContext())
-
+        movieVM = ViewModelProvider(requireActivity()).get(MovieViewModel::class.java)
+        userVM = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         setUsernameProfile()
         gotoProfile()
         getPopularMovies()
         getNowPlayingMovies()
         setupTransformer()
+        showBottomNav()
         binding.posterViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
@@ -68,6 +74,10 @@ class MovieListFragment : Fragment() {
         }
     }
 
+    private fun showBottomNav() {
+        (activity as MainActivity).binding.bottomNav.visibility = View.VISIBLE
+    }
+
     private fun gotoProfile() {
         binding.imgProfile.setOnClickListener {
             findNavController().navigate(R.id.action_movieListFragment_to_profileFragment)
@@ -75,7 +85,8 @@ class MovieListFragment : Fragment() {
     }
 
     private fun setUsernameProfile() {
-        userManager.getUsername.asLiveData().observe(viewLifecycleOwner) {
+        userVM.getUsername(viewLifecycleOwner)
+        userVM.observerUsername().observe(viewLifecycleOwner) {
             binding.username = it
         }
         var image = BitmapFactory.decodeFile(requireActivity().applicationContext.filesDir.path + File.separator +"profiles"+ File.separator +"img-profile.png")
@@ -155,7 +166,10 @@ class MovieListFragment : Fragment() {
     }
 
     private fun gotoDetailMovie(idMovie : Int) {
-        val action = MovieListFragmentDirections.actionMovieListFragmentToDetailMovieFragment(idMovie)
+        val action =
+            MovieListFragmentDirections.actionMovieListFragmentToDetailMovieFragment(
+                idMovie
+            )
         findNavController().navigate(action)
     }
 

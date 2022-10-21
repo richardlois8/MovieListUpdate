@@ -30,7 +30,6 @@ class BlurWorker(context: Context, params : WorkerParameters) : Worker(context,p
 //            nge blurin image - get versi blur bitmap
             val output = blurBitmap(picture, appContext)
 
-
             // Write bitmap to a temp file
             val outputUri = writeBitmapToFile(appContext, output)
 

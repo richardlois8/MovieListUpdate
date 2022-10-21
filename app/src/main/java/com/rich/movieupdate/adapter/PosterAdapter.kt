@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.rich.movieupdate.databinding.ItemMovieBinding
-import com.rich.movieupdate.response.MovieResult
+import com.rich.movieupdate.data.response.MovieResult
 
 class PosterAdapter(private val listMovie : List<MovieResult>,private val viewPager2: ViewPager2) : RecyclerView.Adapter<PosterAdapter.ViewHolder>() {
     var onClick : ((MovieResult) -> Unit)? = null

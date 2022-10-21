@@ -1,45 +1,34 @@
-package com.rich.movieupdate.fragment
+package com.rich.movieupdate.ui.fragment
 
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.databinding.adapters.TextViewBindingAdapter.setText
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
-import com.rich.movieupdate.MainActivity
 import com.rich.movieupdate.R
 import com.rich.movieupdate.databinding.FragmentProfileBinding
-import com.rich.movieupdate.datastore.UserManager
 import com.rich.movieupdate.viewmodel.BlurViewModel
 import com.rich.movieupdate.viewmodel.UserViewModel
-import com.rich.movieupdate.worker.OUTPUT_PATH
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.util.*
 
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
     private lateinit var binding : FragmentProfileBinding
     private val userVM : UserViewModel by lazy {
@@ -49,14 +38,13 @@ class ProfileFragment : Fragment() {
         BlurViewModel(requireActivity().application)
     }
     private lateinit var oldPassword : String
-    private lateinit var image_uri : Uri
+    private var image_uri : Uri? = null
     private val galleryResult =
         registerForActivityResult(ActivityResultContracts.GetContent()) { result ->
             Log.d("URI_IMG", result.toString())
             binding.imgProfile.setImageURI(result)
             image_uri = result!!
             blurVM.setImageUri(result)
-            blurVM.applyBlur()
         }
     private val REQUEST_CODE_PERMISSION = 100
 
@@ -72,6 +60,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getDataUser()
+        setImageProfileBackground()
         setListener()
     }
 
@@ -113,6 +102,11 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    private fun setImageProfileBackground(){
+        var image = BitmapFactory.decodeFile(requireActivity().applicationContext.filesDir.path + File.separator +"blur_outputs"+ File.separator +"IMG-BLURRED.png")
+        binding.imgProfileBackground.setImageBitmap(image)
+    }
+
     private fun logout() {
         AlertDialog.Builder(requireContext())
             .setTitle("Logout")
@@ -120,6 +114,7 @@ class ProfileFragment : Fragment() {
             .setPositiveButton("Yes") { dialog, which ->
                 userVM.removeIsLoginStatus()
                 findNavController().navigate(R.id.action_profileFragment_to_registerLoginFragment)
+
             }
             .setNegativeButton("No") { dialog, which ->
                 dialog.dismiss()
@@ -131,12 +126,22 @@ class ProfileFragment : Fragment() {
         val email = binding.emailInput.text.toString()
         val username = binding.usernameInput.text.toString()
         val password = binding.passwordInput.text.toString()
+        if(image_uri != null){
+            saveImage()
+        }
+        userVM.saveData(email, username, password)
+
+        if(oldPassword != password){
+            findNavController().navigate(R.id.action_profileFragment_to_registerLoginFragment)
+        }
+    }
+
+    private fun saveImage(){
         val resolver = requireActivity().applicationContext.contentResolver
         val picture = BitmapFactory.decodeStream(
             resolver.openInputStream(Uri.parse(image_uri.toString())))
-
-        userVM.saveData(email, username, password)
         saveImageProfile(requireContext(), picture)
+        blurVM.applyBlur()
     }
 
     private fun showLoading(isLoading : Boolean) {
@@ -160,8 +165,6 @@ class ProfileFragment : Fragment() {
                 REQUEST_CODE_PERMISSION,)
         ){
             openGallery()
-        }else{
-            showPermissionDeniedDialog()
         }
     }
 

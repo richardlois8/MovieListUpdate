@@ -1,6 +1,6 @@
-package com.rich.movieupdate.service
+package com.rich.movieupdate.data.remote
 
-import com.rich.movieupdate.response.*
+import com.rich.movieupdate.data.response.*
 import retrofit2.Call
 import retrofit2.http.*
 

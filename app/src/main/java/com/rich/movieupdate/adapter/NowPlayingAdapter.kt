@@ -1,11 +1,12 @@
 package com.rich.movieupdate.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rich.movieupdate.databinding.ItemMovieNowPlayingBinding
-import com.rich.movieupdate.response.NowPlayingMovieItem
+import com.rich.movieupdate.data.response.NowPlayingMovieItem
 
 class NowPlayingAdapter(private val listMovie: List<NowPlayingMovieItem>) : RecyclerView.Adapter<NowPlayingAdapter.ViewHolder>() {
     var onClick : ((NowPlayingMovieItem) -> Unit)? = null

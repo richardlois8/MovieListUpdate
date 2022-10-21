@@ -5,7 +5,7 @@
     <data>
         <variable
             name="movie"
-            type="com.rich.movieupdate.data.response.NowPlayingMovieItem" />
+            type="com.rich.movieupdate.data.local.FavoriteMovie" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -37,15 +37,16 @@
 
             <TextView
                 android:id="@+id/tvTitle"
-                android:layout_width="230dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
+                android:layout_above="@id/tvReleaseDateLabel"
+                android:layout_marginStart="@dimen/margin_12"
+                android:layout_marginTop="@dimen/margin_16"
+                android:layout_toEndOf="@id/imgCard"
                 android:text="@{movie.title}"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:layout_above="@id/tvReleaseDateLabel"
-                android:layout_toEndOf="@id/imgCard"
-                android:layout_marginStart="@dimen/margin_12"
-                android:layout_marginTop="@dimen/margin_16" />
+                android:ellipsize="end"/>
 
             <TextView
                 android:id="@+id/tvReleaseDateLabel"
@@ -66,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvReleaseDateLabel"
                 android:fontFamily="sans-serif"
-                android:text="@{Double.toString(movie.voteAverage) + `/10`}"
+                android:text='@{String.format("%.1f",movie.voteAverage) + `/10`}'
                 android:textAlignment="center"
                 android:textColor="@color/description_color"
                 android:textSize="20sp"
@@ -75,6 +76,14 @@
                 android:layout_toEndOf="@id/imgCard"
                 app:drawableLeftCompat="@drawable/ic_star" />
 
+            <ImageButton
+                android:id="@+id/btnDelete"
+                android:src="@drawable/ic_delete"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="@dimen/margin_12"/>
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

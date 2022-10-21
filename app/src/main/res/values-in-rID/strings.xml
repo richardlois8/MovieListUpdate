@@ -30,4 +30,9 @@
     <string name="pass_not_match">Konfirmasi Password tidak sama</string>
     <string name="required_field">Inputan ini wajib diisi</string>
     <string name="login_failed">Username atau Password salah</string>
+    <string name="menu_home">Beranda</string>
+    <string name="success_add_fav">Berhasil Menambahkan ke Film Favorite</string>
+    <string name="failed_add_fav">Gagal Menambahkan ke Film Favorite</string>
+    <string name="success_delete_fav">Berhasil Menghapus dari Film Favorite</string>
+    <string name="failed_delete_fav">Gagal Menghapus dari Film Favorite</string>
 </resources>

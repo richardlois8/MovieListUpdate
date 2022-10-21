@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragment.MovieListFragment"
+        tools:context=".ui.fragment.MovieListFragment"
         android:background="@drawable/background">
         <TextView
             android:id="@+id/tvHello"
@@ -30,7 +30,6 @@
             android:layout_height="wrap_content"
             android:text="@{username}"
             android:textStyle="bold"
-            android:layout_marginLeft="6dp"
             android:layout_marginTop="@dimen/margin"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toRightOf="@id/tvHello"/>
@@ -49,6 +48,8 @@
             android:src="@drawable/profile"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            app:civ_border_color="@color/black"
+            app:civ_border_width="2dp"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="@dimen/margin_16"
             android:layout_marginEnd="@dimen/margin"

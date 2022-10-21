@@ -31,4 +31,9 @@
     <string name="pass_not_match">Confirmation Password doesn\'t match</string>
     <string name="required_field">This field is required</string>
     <string name="login_failed">Username or Password is wrong</string>
+    <string name="menu_home">Home</string>
+    <string name="success_add_fav">Success Add to Favorite Movie</string>
+    <string name="failed_add_fav">Failed Add to Favorite Movie</string>
+    <string name="success_delete_fav">Success Delete from Favorite Movie</string>
+    <string name="failed_delete_fav">Failed Delete from Favorite Movie</string>
 </resources>

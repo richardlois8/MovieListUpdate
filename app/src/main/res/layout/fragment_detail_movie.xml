@@ -6,154 +6,166 @@
     <data>
         <variable
             name="dataMovie"
-            type="com.rich.movieupdate.response.MovieResult" />
+            type="com.rich.movieupdate.data.response.MovieResult" />
     </data>
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background"
-        tools:context=".fragment.DetailMovieFragment">
-        <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="match_parent">
+        <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/margin_16">
-            <FrameLayout
-                android:id="@+id/frameLayout"
+            android:layout_height="match_parent"
+            android:background="@drawable/background"
+            tools:context=".ui.fragment.DetailMovieFragment">
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent">
-                <RelativeLayout
+                android:paddingBottom="@dimen/margin_16">
+                <FrameLayout
+                    android:id="@+id/frameLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:id="@+id/imgPoster"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent">
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="500dp"
-                        android:src="@drawable/poster_example"
-                        android:scaleType="fitXY"
-                        android:adjustViewBounds="true"/>
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/imgPoster"
+                            android:layout_width="match_parent"
+                            android:layout_height="500dp"
+                            android:src="@drawable/poster_example"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"/>
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="500dp"
-                        android:src="@drawable/image_gradient" />
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="500dp"
+                            android:src="@drawable/image_gradient" />
 
-                    <TextView
-                        android:id="@+id/tvMovieTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="350dp"
-                        android:layout_marginEnd="16dp"
-                        android:text="Captain Marvel"
-                        android:textAlignment="center"
-                        android:textSize="@dimen/heading_1_size"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tvMovieTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="350dp"
+                            android:layout_marginEnd="16dp"
+                            android:text="Captain Marvel"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/heading_1_size"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tvMovieTagline"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tvMovieTitle"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="6dp"
-                        android:layout_marginEnd="16dp"
-                        android:text="There's always been something wrong with Esther."
-                        android:fontFamily="sans-serif"
-                        android:textAlignment="center"
-                        android:textColor="#E3E3E3"
-                        android:textSize="22sp" />
-                    <TextView
-                        android:id="@+id/tvMovieGenre"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" Action"
-                        android:textColor="@color/description_color"
-                        android:textAlignment="center"
-                        android:textSize="20sp"
-                        android:layout_below="@id/tvMovieTagline"
-                        android:layout_toStartOf="@id/tvMovieVoteAvg"
-                        android:layout_marginStart="@dimen/margin_12"
-                        android:layout_marginTop="16dp"
-                        app:drawableLeftCompat="@drawable/ic_genre" />
+                        <TextView
+                            android:id="@+id/tvMovieTagline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tvMovieTitle"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginEnd="16dp"
+                            android:text="There's always been something wrong with Esther."
+                            android:fontFamily="sans-serif"
+                            android:textAlignment="center"
+                            android:textColor="#E3E3E3"
+                            android:textSize="22sp" />
+                        <TextView
+                            android:id="@+id/tvMovieGenre"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" Action"
+                            android:textColor="@color/description_color"
+                            android:textAlignment="center"
+                            android:textSize="20sp"
+                            android:layout_below="@id/tvMovieTagline"
+                            android:layout_toStartOf="@id/tvMovieVoteAvg"
+                            android:layout_marginStart="@dimen/margin_12"
+                            android:layout_marginTop="16dp"
+                            app:drawableLeftCompat="@drawable/ic_genre" />
 
-                    <TextView
-                        android:id="@+id/tvMovieVoteAvg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tvMovieTagline"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:fontFamily="sans-serif"
-                        android:text="6.9/10"
-                        android:textAlignment="center"
-                        android:textColor="@color/description_color"
-                        android:textSize="20sp"
-                        app:drawableLeftCompat="@drawable/ic_star" />
-                    <TextView
-                        android:id="@+id/tvMovieRuntime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" 99"
-                        android:textColor="@color/description_color"
-                        android:fontFamily="sans-serif"
-                        android:textAlignment="center"
-                        android:textSize="20sp"
-                        android:layout_below="@id/tvMovieTagline"
-                        android:layout_toEndOf="@id/tvMovieVoteAvg"
-                        android:layout_marginEnd="@dimen/margin_12"
-                        android:layout_marginTop="16dp"
-                        app:drawableLeftCompat="@drawable/ic_time"
-                        />
-                </RelativeLayout>
-            </FrameLayout>
-            <TextView
-                android:id="@+id/tvMovieOverviewTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/detail_overview_title"
-                android:textSize="@dimen/heading_2_size"
-                android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/frameLayout"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginTop="@dimen/margin_12"/>
-            <TextView
-                android:id="@+id/tvMovieOverview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum viverra maximus est, quis venenatis ante convallis ut. Proin accumsan facilisis faucibus. Cras convallis dapibus vestibulum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut eget enim libero. Nam quis venenatis augue, a placerat odio. Pellentesque vitae libero pharetra, iaculis justo nec, tincidunt mauris. In scelerisque quis libero non interdum. Praesent condimentum iaculis turpis, ut vulputate velit maximus ut. Suspendisse venenatis, ligula eu egestas ullamcorper, quam augue tristique arcu, nec vestibulum elit massa ut nunc."
-                android:justificationMode="inter_word"
-                android:fontFamily="sans-serif"
-                android:textColor="#8E8D8D"
-                android:textSize="22sp"
-                app:layout_constraintTop_toBottomOf="@id/tvMovieOverviewTitle"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginEnd="@dimen/margin_16"/>
+                        <TextView
+                            android:id="@+id/tvMovieVoteAvg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tvMovieTagline"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:fontFamily="sans-serif"
+                            android:text="6.9/10"
+                            android:textAlignment="center"
+                            android:textColor="@color/description_color"
+                            android:textSize="20sp"
+                            app:drawableLeftCompat="@drawable/ic_star" />
+                        <TextView
+                            android:id="@+id/tvMovieRuntime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" 99"
+                            android:textColor="@color/description_color"
+                            android:fontFamily="sans-serif"
+                            android:textAlignment="center"
+                            android:textSize="20sp"
+                            android:layout_below="@id/tvMovieTagline"
+                            android:layout_toEndOf="@id/tvMovieVoteAvg"
+                            android:layout_marginEnd="@dimen/margin_12"
+                            android:layout_marginTop="16dp"
+                            app:drawableLeftCompat="@drawable/ic_time"
+                            />
+                    </RelativeLayout>
+                </FrameLayout>
+                <TextView
+                    android:id="@+id/tvMovieOverviewTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/detail_overview_title"
+                    android:textSize="@dimen/heading_2_size"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/frameLayout"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginStart="@dimen/margin_16"
+                    android:layout_marginTop="@dimen/margin_12"/>
+                <TextView
+                    android:id="@+id/tvMovieOverview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum viverra maximus est, quis venenatis ante convallis ut. Proin accumsan facilisis faucibus. Cras convallis dapibus vestibulum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut eget enim libero. Nam quis venenatis augue, a placerat odio. Pellentesque vitae libero pharetra, iaculis justo nec, tincidunt mauris. In scelerisque quis libero non interdum. Praesent condimentum iaculis turpis, ut vulputate velit maximus ut. Suspendisse venenatis, ligula eu egestas ullamcorper, quam augue tristique arcu, nec vestibulum elit massa ut nunc."
+                    android:justificationMode="inter_word"
+                    android:fontFamily="sans-serif"
+                    android:textColor="#8E8D8D"
+                    android:textSize="22sp"
+                    app:layout_constraintTop_toBottomOf="@id/tvMovieOverviewTitle"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="@dimen/margin_16"
+                    android:layout_marginEnd="@dimen/margin_16"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnFavorite"
+            android:src="@drawable/ic_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/margin_12"
+            android:text="notFav"/>
 
-            <RelativeLayout
-                android:id="@+id/progressBarContainer"
-                android:layout_width="match_parent"
-                android:layout_height="900dp"
-                android:background="#000000"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent">
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/lottieLoading"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_centerInParent="true"
-                    app:lottie_autoPlay="true"
-                    app:lottie_rawRes="@raw/loading_search" />
-            </RelativeLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+        <RelativeLayout
+            android:id="@+id/progressBarContainer"
+            android:layout_width="match_parent"
+            android:layout_height="900dp"
+            android:background="#000000"
+            android:elevation="@dimen/margin_12">
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottieLoading"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_centerInParent="true"
+                app:lottie_autoPlay="true"
+                app:lottie_rawRes="@raw/loading_search" />
+        </RelativeLayout>
+    </RelativeLayout>
 </layout>

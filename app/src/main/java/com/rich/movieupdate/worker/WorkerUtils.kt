@@ -76,7 +76,8 @@ fun blurBitmap(bitmap: Bitmap, applicationContext: Context): Bitmap {
 }
 
 fun writeBitmapToFile(applicationContext: Context, bitmap: Bitmap): Uri {
-    val name = String.format("IMG-BLUR-%s.png", UUID.randomUUID().toString())
+//    val name = String.format("IMG-BLUR-%s.png", UUID.randomUUID().toString())
+    val name = "IMG-BLURRED.png"
     val outputDir = File(applicationContext.filesDir, OUTPUT_PATH)
     if (!outputDir.exists()) {
         outputDir.mkdirs() // should succeed

@@ -1,14 +1,14 @@
-package com.rich.movieupdate.datastore
+package com.rich.movieupdate.data.local
 
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class UserManager(val context : Context) {
-
+class UserManager(@ApplicationContext val context: Context) {
     val DATA_USERNAME = stringPreferencesKey(USER_USERNAME)
     val DATA_EMAIL = stringPreferencesKey(USER_EMAIL)
     val DATA_PASSWORD = stringPreferencesKey(USER_PASSWORD)
@@ -53,7 +53,6 @@ class UserManager(val context : Context) {
             it.remove(DATA_ISLOGIN)
         }
     }
-
 
     companion object {
         const val USER_USERNAME = "username"
