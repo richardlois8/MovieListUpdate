@@ -22,6 +22,7 @@ class DetailMovieFragment : Fragment() {
     private lateinit var binding: FragmentDetailMovieBinding
     private lateinit var movieVM: MovieViewModel
     private lateinit var selectedMovie: FavoriteMovie
+    private lateinit var username: String
     private var isFavorite by Delegates.notNull<Boolean>()
     private var movieId by Delegates.notNull<Int>()
 
@@ -37,6 +38,7 @@ class DetailMovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         movieVM = ViewModelProvider(this).get(MovieViewModel::class.java)
+        username = requireActivity().getSharedPreferences("user", 0).getString("username", "")!!
         getMovieId()
         getMovieDetail()
         checkFavoriteMovie(movieId)
@@ -67,7 +69,8 @@ class DetailMovieFragment : Fragment() {
                     it.title!!,
                     it.releaseDate!!,
                     it.voteAverage!!,
-                    it.posterPath!!
+                    it.posterPath!!,
+                    username
                 )
             }
         }

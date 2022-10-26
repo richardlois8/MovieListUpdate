@@ -153,6 +153,14 @@ class RegisterLoginFragment : Fragment() {
             binding.loginForm.passwordInput.error = resources.getString(R.string.required_field)
         } else {
             if (username == savedUsername && password == savedPassword) {
+                val sharedPref = requireActivity().getSharedPreferences(
+                    "user",
+                    Context.MODE_PRIVATE
+                )
+                with(sharedPref.edit()) {
+                    putString("username", username)
+                    apply()
+                }
                 userVM.saveIsLoginStatus(true)
                 gotoHome()
             } else {

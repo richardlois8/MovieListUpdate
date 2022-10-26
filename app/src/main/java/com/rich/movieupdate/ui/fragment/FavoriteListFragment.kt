@@ -24,6 +24,7 @@ class FavoriteListFragment : Fragment() {
     private lateinit var binding : FragmentFavoriteListBinding
     private lateinit var movieVM : MovieViewModel
     private lateinit var favAdapter : FavoriteMovieAdapter
+    private lateinit var username : String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,13 +38,13 @@ class FavoriteListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         movieVM = ViewModelProvider(this).get(MovieViewModel::class.java)
-
+        username = requireActivity().getSharedPreferences("user", 0).getString("username", "")!!
         showLoading(true)
         getALlFavoriteMovie()
     }
 
     private fun getALlFavoriteMovie() {
-        movieVM.getAllFavoriteMovie()
+        movieVM.getAllFavoriteMovie(username)
         movieVM.observerGetAllFavoriteMovie().observe(viewLifecycleOwner) {
             if (it != null) {
                 showLoading(false)

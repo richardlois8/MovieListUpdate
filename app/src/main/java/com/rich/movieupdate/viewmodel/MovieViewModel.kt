@@ -112,9 +112,9 @@ class MovieViewModel @Inject constructor(val client : APIService, val db : Favor
         })
     }
 
-    fun getAllFavoriteMovie() {
+    fun getAllFavoriteMovie(username : String) {
         GlobalScope.launch {
-            livedataGetAllFavorite.postValue(db.getAllFavorite())
+            livedataGetAllFavorite.postValue(db.getAllFavorite(username))
         }
     }
 

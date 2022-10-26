@@ -14,4 +14,5 @@ class FavoriteMovie (
     var releaseDate : String,
     var voteAverage : Double,
     var posterPath : String,
+    var addedBy : String
 ) : Parcelable
