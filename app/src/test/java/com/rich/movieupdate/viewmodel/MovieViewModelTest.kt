@@ -5,10 +5,7 @@ import com.rich.movieupdate.data.local.FavoriteDAO
 import com.rich.movieupdate.data.remote.APIService
 import com.rich.movieupdate.data.response.MovieResult
 import com.rich.movieupdate.data.response.PopularMovieResponse
-import io.mockk.Call
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
+import io.mockk.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Assert.*
@@ -24,25 +21,7 @@ class MovieViewModelTest{
     fun setUp(){
         client = mockk()
         db = mockk()
-        vm = MovieViewModel(client, db)
-    }
-
-    @Test
-    fun getPopularMovies(){
-        val resp = mockk<List<MovieResult>>()
-
-        every {
-            client.getPopularMoviesTest()
-
-        }returns resp
-
-        //        System Under Test (WHEN)
-        val result = client.getPopularMoviesTest()
-
-        verify {
-            client.getPopularMoviesTest()
-        }
-        Assert.assertEquals(result, resp)
+        vm = mockk()
     }
 
 //    @Test
@@ -50,15 +29,29 @@ class MovieViewModelTest{
 //        val resp = mockk<List<MovieResult>>()
 //
 //        every {
-//            vm.callGetPopularMovieApi()
+//            client.getPopularMoviesTest()
+//
 //        }returns resp
 //
 //        //        System Under Test (WHEN)
-//        val result = vm.callGetPopularMovieApi()
+//        val result = client.getPopularMoviesTest()
 //
 //        verify {
-//            vm.callGetPopularMovieApi()
+//            client.getPopularMoviesTest()
 //        }
 //        Assert.assertEquals(result, resp)
 //    }
+
+    @Test
+    fun `Success fetching Popular Movie`(){
+        val resp = mockk<List<MovieResult>>()
+
+        every {
+            vm.callGetPopularMovieApi()
+            vm.popularMovie.value
+        } returns resp
+
+        val result = vm.popularMovie.value
+        Assert.assertEquals(resp, result)
+    }
 }

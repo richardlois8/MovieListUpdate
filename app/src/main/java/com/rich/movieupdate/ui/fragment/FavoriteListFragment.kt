@@ -45,7 +45,7 @@ class FavoriteListFragment : Fragment() {
 
     private fun getALlFavoriteMovie() {
         movieVM.getAllFavoriteMovie(username)
-        movieVM.observerGetAllFavoriteMovie().observe(viewLifecycleOwner) {
+        movieVM.allFavoriteMovie.observe(viewLifecycleOwner) {
             if (it != null) {
                 showLoading(false)
                 showFavoriteMovies(it)
@@ -74,7 +74,7 @@ class FavoriteListFragment : Fragment() {
             .setMessage("Are you sure want to delete this movie from favorite?")
             .setPositiveButton("Yes") { dialog, which ->
                 movieVM.deleteFavMovie(movie)
-                movieVM.observerDeleteFavoriteMovie().observe(viewLifecycleOwner){
+                movieVM.deleteFavoriteMovie.observe(viewLifecycleOwner){
                     if(it != null){
                         Toast.makeText(requireContext(), resources.getString(R.string.success_delete_fav), Toast.LENGTH_SHORT).show()
                         getALlFavoriteMovie()

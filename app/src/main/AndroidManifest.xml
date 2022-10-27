@@ -19,9 +19,6 @@
         android:theme="@style/Theme.MovieListAPI"
         tools:targetApi="31">
         <activity
-            android:name=".ui.activity.FavoriteMovieActivity"
-            android:exported="false" />
-        <activity
             android:name="com.rich.movieupdate.ui.activity.MainActivity"
             android:exported="true">
             <intent-filter>

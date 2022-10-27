@@ -1,5 +1,7 @@
 package com.rich.movieupdate.ui.fragment
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -25,6 +27,7 @@ import javax.inject.Inject
 class SplashScreenFragment : Fragment() {
     private lateinit var binding: FragmentSplashScreenBinding
     private lateinit var userVM : UserViewModel
+    private lateinit var sharedPref : SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +41,7 @@ class SplashScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         userVM = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+        sharedPref = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
         var isLogin = false
         userVM.checkIsLogin(viewLifecycleOwner)
         userVM.observerIsLogin().observe(viewLifecycleOwner) {
@@ -45,7 +49,8 @@ class SplashScreenFragment : Fragment() {
         }
 
         Handler(Looper.getMainLooper()).postDelayed({
-            if(isLogin){
+            val idToken = sharedPref.getString("idToken", "")
+            if(isLogin || idToken != ""){
                 findNavController().navigate(R.id.action_splashScreenFragment_to_movieListFragment)
             }else{
                 findNavController().navigate(R.id.action_splashScreenFragment_to_registerLoginFragment)

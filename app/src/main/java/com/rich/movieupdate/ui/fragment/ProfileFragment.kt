@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -18,7 +19,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.startActivity
+import androidx.databinding.adapters.ViewGroupBindingAdapter.setListener
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.rich.movieupdate.R
 import com.rich.movieupdate.databinding.FragmentProfileBinding
 import com.rich.movieupdate.viewmodel.BlurViewModel
@@ -37,6 +44,7 @@ class ProfileFragment : Fragment() {
     private val blurVM : BlurViewModel by lazy {
         BlurViewModel(requireActivity().application)
     }
+    private lateinit var sharedPref : SharedPreferences
     private lateinit var oldPassword : String
     private var image_uri : Uri? = null
     private val galleryResult =
@@ -59,6 +67,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        sharedPref = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
         getDataUser()
         setImageProfileBackground()
         setListener()
@@ -66,19 +75,38 @@ class ProfileFragment : Fragment() {
 
 
     private fun getDataUser(){
-        userVM.getDataUser(viewLifecycleOwner)
-        userVM.observerEmail().observe(viewLifecycleOwner) {
-            binding.emailInput.setText(it)
+        //Untuk login via google
+        if(sharedPref.getString("idToken","") != ""){
+            Glide.with(requireContext())
+                .load(sharedPref.getString("photoUri",""))
+                .into(binding.imgProfile)
+            Glide.with(requireContext())
+                .load(sharedPref.getString("photoUri",""))
+                .into(binding.imgProfileBackground)
+            binding.apply {
+                emailInput.setText(sharedPref.getString("email",""))
+                usernameInput.setText(sharedPref.getString("username",""))
+                emailInput.setEnabled(false)
+                usernameInput.setEnabled(false)
+                passwordInput.setEnabled(false)
+                btnEditPhoto.setEnabled(false)
+                btnSaveUpdate.setEnabled(false)
+            }
+        }else{
+            userVM.getDataUser(viewLifecycleOwner)
+            userVM.observerEmail().observe(viewLifecycleOwner) {
+                binding.emailInput.setText(it)
+            }
+            userVM.observerUsername().observe(viewLifecycleOwner) {
+                binding.usernameInput.setText(it)
+            }
+            userVM.observerPassword().observe(viewLifecycleOwner) {
+                oldPassword = it
+                binding.passwordInput.setText(it)
+            }
+            var image = BitmapFactory.decodeFile(requireActivity().applicationContext.filesDir.path + File.separator +"profiles"+ File.separator +"img-profile.png")
+            binding.imgProfile.setImageBitmap(image)
         }
-        userVM.observerUsername().observe(viewLifecycleOwner) {
-            binding.usernameInput.setText(it)
-        }
-        userVM.observerPassword().observe(viewLifecycleOwner) {
-            oldPassword = it
-            binding.passwordInput.setText(it)
-        }
-        var image = BitmapFactory.decodeFile(requireActivity().applicationContext.filesDir.path + File.separator +"profiles"+ File.separator +"img-profile.png")
-        binding.imgProfile.setImageBitmap(image)
     }
 
     private fun setListener() {
@@ -112,9 +140,13 @@ class ProfileFragment : Fragment() {
             .setTitle("Logout")
             .setMessage("Are you sure want to logout?")
             .setPositiveButton("Yes") { dialog, which ->
-                userVM.removeIsLoginStatus()
+                if(sharedPref.getString("idToken","") != ""){
+                    sharedPref.edit().clear().apply()
+                    Firebase.auth.signOut()
+                }else{
+                    userVM.removeIsLoginStatus()
+                }
                 findNavController().navigate(R.id.action_profileFragment_to_registerLoginFragment)
-
             }
             .setNegativeButton("No") { dialog, which ->
                 dialog.dismiss()

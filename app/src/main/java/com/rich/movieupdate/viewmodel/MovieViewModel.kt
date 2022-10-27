@@ -1,14 +1,17 @@
 package com.rich.movieupdate.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.rich.movieupdate.data.local.FavoriteDAO
 import com.rich.movieupdate.data.local.FavoriteMovie
 import com.rich.movieupdate.data.response.*
-import com.rich.movieupdate.data.remote.APIConfig
 import com.rich.movieupdate.data.remote.APIService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -18,31 +21,51 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieViewModel @Inject constructor(val client : APIService, val db : FavoriteDAO): ViewModel() {
-    var liveDataMovie : MutableLiveData<List<MovieResult>>
-    var livedataGetMovieDetail : MutableLiveData<MovieDetailResponse?>
-    var livedataGetNowPlayingMovie : MutableLiveData<List<NowPlayingMovieItem>>
-    var livedataGetAllFavorite : MutableLiveData<List<FavoriteMovie>>
-    var livedataCheckIsFav : MutableLiveData<Boolean>
-    var livedataAddFavorite : MutableLiveData<FavoriteMovie>
-    var livedataDeleteFavorite : MutableLiveData<FavoriteMovie>
+    private val _popularMovie = MutableLiveData<List<MovieResult>>()
+    val popularMovie : LiveData<List<MovieResult>> = _popularMovie
 
-    init {
-        liveDataMovie = MutableLiveData()
-        livedataGetMovieDetail = MutableLiveData()
-        livedataGetNowPlayingMovie = MutableLiveData()
-        livedataGetAllFavorite = MutableLiveData()
-        livedataCheckIsFav = MutableLiveData()
-        livedataAddFavorite = MutableLiveData()
-        livedataDeleteFavorite = MutableLiveData()
-    }
+    private val _nowPlayingMovie = MutableLiveData<List<NowPlayingMovieItem>>()
+    val nowPlayingMovie : LiveData<List<NowPlayingMovieItem>> = _nowPlayingMovie
 
-    fun getLDMovie() : MutableLiveData<List<MovieResult>> = liveDataMovie
-    fun observerGetMovieDetail() : MutableLiveData<MovieDetailResponse?> = livedataGetMovieDetail
-    fun observerGetNowPlayingMovie() : MutableLiveData<List<NowPlayingMovieItem>> = livedataGetNowPlayingMovie
-    fun observerGetAllFavoriteMovie() : MutableLiveData<List<FavoriteMovie>> = livedataGetAllFavorite
-    fun observerCheckIsFav() : MutableLiveData<Boolean> = livedataCheckIsFav
-    fun observerAddFavoriteMovie() : MutableLiveData<FavoriteMovie> = livedataAddFavorite
-    fun observerDeleteFavoriteMovie() : MutableLiveData<FavoriteMovie> = livedataDeleteFavorite
+    private val _movieDetail = MutableLiveData<MovieDetailResponse>()
+    val movieDetail : LiveData<MovieDetailResponse> = _movieDetail
+
+    private val _allFavoriteMovie = MutableLiveData<List<FavoriteMovie>>()
+    val allFavoriteMovie : LiveData<List<FavoriteMovie>> = _allFavoriteMovie
+
+    private val _addFavoriteMovie = MutableLiveData<FavoriteMovie>()
+    val addFavoriteMovie : LiveData<FavoriteMovie> = _addFavoriteMovie
+
+    private val _deleteFavoriteMovie = MutableLiveData<FavoriteMovie>()
+    val deleteFavoriteMovie : LiveData<FavoriteMovie> = _deleteFavoriteMovie
+
+    private val _checkIsFavorite = MutableLiveData<Boolean>()
+    val checkIsFavorite : LiveData<Boolean> = _checkIsFavorite
+
+//    var _movieDetail : MutableLiveData<MovieDetailResponse?>
+//    var _noePlayingMovie : MutableLiveData<List<NowPlayingMovieItem>>
+//    var _allFavoriteMovie : MutableLiveData<List<FavoriteMovie>>
+//    var _cheskIsFavorite : MutableLiveData<Boolean>
+//    var _addFavoriteMovie : MutableLiveData<FavoriteMovie>
+//    var _deleteFavoriteMovie : MutableLiveData<FavoriteMovie>
+
+//    init {
+//        _popularMovie = MutableLiveData()
+//        livedataGetMovieDetail = MutableLiveData()
+//        livedataGetNowPlayingMovie = MutableLiveData()
+//        livedataGetAllFavorite = MutableLiveData()
+//        livedataCheckIsFav = MutableLiveData()
+//        livedataAddFavorite = MutableLiveData()
+//        livedataDeleteFavorite = MutableLiveData()
+//    }
+
+//    fun getLDMovie() : MutableLiveData<List<MovieResult>> = _popularMovie
+//    fun movieDetail() : MutableLiveData<MovieDetailResponse?> = this._movieDetail
+//    fun observerGetNowPlayingMovie() : MutableLiveData<List<NowPlayingMovieItem>> = _noePlayingMovie
+//    fun observerGetAllFavoriteMovie() : MutableLiveData<List<FavoriteMovie>> = _allFavoriteMovie
+//    fun observerCheckIsFav() : MutableLiveData<Boolean> = _cheskIsFavorite
+//    fun observerAddFavoriteMovie() : MutableLiveData<FavoriteMovie> = _addFavoriteMovie
+//    fun observerDeleteFavoriteMovie() : MutableLiveData<FavoriteMovie> = _deleteFavoriteMovie
 
     fun callGetPopularMovieApi() {
         client.getPopularMovies().enqueue(object : Callback<PopularMovieResponse> {
@@ -53,15 +76,15 @@ class MovieViewModel @Inject constructor(val client : APIService, val db : Favor
                 if (response.isSuccessful) {
                     val data = response.body()
                     if (data != null) {
-                        liveDataMovie.postValue(data.results as List<MovieResult>?)
+                        _popularMovie.postValue(data.results as List<MovieResult>?)
                     }
                 } else {
-                    Log.e("Error : ", "onFailure: ${response.message()}")
+                    Log.e("Error not successful : ", response.message())
                 }
             }
 
             override fun onFailure(call: Call<PopularMovieResponse>, t: Throwable) {
-                Log.e("Error ; ", "onFailure: ${t.message}")
+                Log.e("Error onFailure :", t.message!!)
             }
         })
     }
@@ -75,7 +98,7 @@ class MovieViewModel @Inject constructor(val client : APIService, val db : Favor
                 if (response.isSuccessful){
                     val data = response.body()
                     if (data != null){
-                        livedataGetMovieDetail.postValue(data)
+                        _movieDetail.postValue(data!!)
                     }
                 } else {
                     Log.e("Error : ", "onFailure: ${response.message()}")
@@ -97,7 +120,7 @@ class MovieViewModel @Inject constructor(val client : APIService, val db : Favor
                 if (response.isSuccessful){
                     val data = response.body()
                     if (data != null){
-                        livedataGetNowPlayingMovie.postValue(data.results as List<NowPlayingMovieItem>)
+                        _nowPlayingMovie.postValue(data.results as List<NowPlayingMovieItem>)
                     }
                 } else {
                     Log.e("Error : ", "onFailure: ${response.message()}")
@@ -113,28 +136,28 @@ class MovieViewModel @Inject constructor(val client : APIService, val db : Favor
     }
 
     fun getAllFavoriteMovie(username : String) {
-        GlobalScope.launch {
-            livedataGetAllFavorite.postValue(db.getAllFavorite(username))
+        CoroutineScope(Dispatchers.IO).launch {
+            _allFavoriteMovie.postValue(db.getAllFavorite(username))
         }
     }
 
     fun isFavoriteMovie(id : Int) {
-        GlobalScope.launch {
-            livedataCheckIsFav.postValue(db.isFavoriteMovie(id))
+        CoroutineScope(Dispatchers.IO).launch {
+            _checkIsFavorite.postValue(db.isFavoriteMovie(id))
         }
     }
 
     fun addFavMovie(favMovie : FavoriteMovie) {
-        GlobalScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             db.addFavorite(favMovie)
-            livedataAddFavorite.postValue(favMovie)
+            _addFavoriteMovie.postValue(favMovie)
         }
     }
 
     fun deleteFavMovie(favMovie : FavoriteMovie) {
-        GlobalScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             db.deleteFavorite(favMovie)
-            livedataDeleteFavorite.postValue(favMovie)
+            _deleteFavoriteMovie.postValue(favMovie)
         }
     }
 }

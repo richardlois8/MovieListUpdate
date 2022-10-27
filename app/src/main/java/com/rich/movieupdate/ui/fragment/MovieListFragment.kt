@@ -1,6 +1,7 @@
 package com.rich.movieupdate.ui.fragment
 
 import android.app.ProgressDialog.show
+import android.content.SharedPreferences
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.rich.movieupdate.R
 import com.rich.movieupdate.adapter.NowPlayingAdapter
 import com.rich.movieupdate.adapter.PosterAdapter
@@ -41,6 +43,7 @@ class MovieListFragment : Fragment() {
     private lateinit var movieVM : MovieViewModel
     private lateinit var userVM : UserViewModel
     private lateinit var handler: Handler
+    private lateinit var sharedPref : SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,6 +58,7 @@ class MovieListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         movieVM = ViewModelProvider(requireActivity()).get(MovieViewModel::class.java)
         userVM = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+        sharedPref = requireActivity().getSharedPreferences("user", 0)
         setUsernameProfile()
         gotoProfile()
         getPopularMovies()
@@ -85,12 +89,19 @@ class MovieListFragment : Fragment() {
     }
 
     private fun setUsernameProfile() {
-        userVM.getUsername(viewLifecycleOwner)
-        userVM.observerUsername().observe(viewLifecycleOwner) {
-            binding.username = it
+        if(sharedPref.getString("idToken","") != "") {
+            binding.username = sharedPref.getString("username", "")
+            Glide.with(requireContext())
+                .load(sharedPref.getString("photoUri", ""))
+                .into(binding.imgProfile)
+        }else{
+            userVM.getUsername(viewLifecycleOwner)
+            userVM.observerUsername().observe(viewLifecycleOwner) {
+                binding.username = it
+            }
+            var image = BitmapFactory.decodeFile(requireActivity().applicationContext.filesDir.path + File.separator +"profiles"+ File.separator +"img-profile.png")
+            binding.imgProfile.setImageBitmap(image)
         }
-        var image = BitmapFactory.decodeFile(requireActivity().applicationContext.filesDir.path + File.separator +"profiles"+ File.separator +"img-profile.png")
-        binding.imgProfile.setImageBitmap(image)
     }
 
     override fun onPause() {
@@ -122,7 +133,7 @@ class MovieListFragment : Fragment() {
         handler = Handler(Looper.myLooper()!!)
         showLoading(true)
         movieVM.callGetPopularMovieApi()
-        movieVM.getLDMovie().observe(viewLifecycleOwner){
+        movieVM.popularMovie.observe(viewLifecycleOwner){
             if (it != null) {
                 Log.d("RESULT",it.toString())
                 showLoading(false)
@@ -145,7 +156,7 @@ class MovieListFragment : Fragment() {
 
     private fun getNowPlayingMovies(){
         movieVM.callGetNowPlayingMovie()
-        movieVM.observerGetNowPlayingMovie().observe(viewLifecycleOwner){
+        movieVM.nowPlayingMovie.observe(viewLifecycleOwner){
             if (it != null) {
                 showLoading(false)
                 showNowPlayingMovies(it)

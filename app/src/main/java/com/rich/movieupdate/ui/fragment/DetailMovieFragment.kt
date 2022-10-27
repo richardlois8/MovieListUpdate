@@ -52,7 +52,7 @@ class DetailMovieFragment : Fragment() {
     private fun getMovieDetail() {
         showLoading(true)
         movieVM.callGetMovieDetail(movieId)
-        movieVM.observerGetMovieDetail().observe(viewLifecycleOwner) {
+        movieVM.movieDetail.observe(viewLifecycleOwner) {
             if (it != null) {
                 showLoading(false)
                 Glide.with(requireContext())
@@ -94,7 +94,7 @@ class DetailMovieFragment : Fragment() {
 
     private fun addToFavorite(movie : FavoriteMovie){
         movieVM.addFavMovie(movie)
-        movieVM.observerAddFavoriteMovie().observe(viewLifecycleOwner){
+        movieVM.addFavoriteMovie.observe(viewLifecycleOwner){
             if(it != null){
                 Toast.makeText(requireContext(), resources.getString(R.string.success_add_fav), Toast.LENGTH_SHORT).show()
             }else{
@@ -105,7 +105,7 @@ class DetailMovieFragment : Fragment() {
 
     private fun deleteFromFavorite(movie: FavoriteMovie){
         movieVM.deleteFavMovie(movie)
-        movieVM.observerDeleteFavoriteMovie().observe(viewLifecycleOwner){
+        movieVM.deleteFavoriteMovie.observe(viewLifecycleOwner){
             if(it != null){
                 Toast.makeText(requireContext(), resources.getString(R.string.success_delete_fav), Toast.LENGTH_SHORT).show()
             }else{
@@ -116,7 +116,7 @@ class DetailMovieFragment : Fragment() {
 
     private fun checkFavoriteMovie(movieId: Int){
         movieVM.isFavoriteMovie(movieId)
-        movieVM.observerCheckIsFav().observe(viewLifecycleOwner){
+        movieVM.checkIsFavorite.observe(viewLifecycleOwner){
             if(it != null){
                 if (it){
                     isFavorite = true

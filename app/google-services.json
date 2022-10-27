@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "191253098474",
+    "project_id": "movielist-324c2",
+    "storage_bucket": "movielist-324c2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191253098474:android:99aa9ea3a85429ba758c93",
+        "android_client_info": {
+          "package_name": "com.rich.movielistapi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "191253098474-ur4npredqius5ifoo7r7vf2tvf8jc5cf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCVHVQskt1qXAq6aFuZMI74DcOtZmEMJY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "191253098474-ur4npredqius5ifoo7r7vf2tvf8jc5cf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

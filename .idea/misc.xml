@@ -23,6 +23,7 @@
         <entry key="..\:/Kuliah/Semester 5/Android Binar/Chapter 5/Coding/MovieListAPI/app/src/main/res/menu/appbar_profile_menu.xml" value="0.27447916666666666" />
         <entry key="..\:/Kuliah/Semester 5/Android Binar/Chapter 5/Coding/MovieListAPI/app/src/main/res/menu/top_appbar_menu.xml" value="0.27447916666666666" />
         <entry key="..\:/Kuliah/Semester 5/Android Binar/Chapter 6/Challenge/MovieUpdate/app/src/main/res/drawable/edit_photo_background.xml" value="0.115" />
+        <entry key="..\:/Kuliah/Semester 5/Android Binar/Chapter 6/Challenge/MovieUpdate/app/src/main/res/drawable/google_button.xml" value="0.107" />
         <entry key="..\:/Kuliah/Semester 5/Android Binar/Chapter 6/Challenge/MovieUpdate/app/src/main/res/drawable/ic_edit.xml" value="0.115" />
         <entry key="..\:/Kuliah/Semester 5/Android Binar/Chapter 6/Challenge/MovieUpdate/app/src/main/res/drawable/ic_favorite.xml" value="0.1155" />
         <entry key="..\:/Kuliah/Semester 5/Android Binar/Chapter 6/Challenge/MovieUpdate/app/src/main/res/drawable/ic_favorite_outline.xml" value="0.1155" />
@@ -36,7 +37,7 @@
         <entry key="..\:/Kuliah/Semester 5/Android Binar/Chapter 6/Challenge/MovieUpdate/app/src/main/res/layout/fragment_favorite_list.xml" value="0.19067028985507245" />
         <entry key="..\:/Kuliah/Semester 5/Android Binar/Chapter 6/Challenge/MovieUpdate/app/src/main/res/layout/fragment_movie_list.xml" value="0.18" />
         <entry key="..\:/Kuliah/Semester 5/Android Binar/Chapter 6/Challenge/MovieUpdate/app/src/main/res/layout/fragment_profile.xml" value="0.33" />
-        <entry key="..\:/Kuliah/Semester 5/Android Binar/Chapter 6/Challenge/MovieUpdate/app/src/main/res/layout/fragment_register_login.xml" value="0.19067028985507245" />
+        <entry key="..\:/Kuliah/Semester 5/Android Binar/Chapter 6/Challenge/MovieUpdate/app/src/main/res/layout/fragment_register_login.xml" value="0.22" />
         <entry key="..\:/Kuliah/Semester 5/Android Binar/Chapter 6/Challenge/MovieUpdate/app/src/main/res/layout/fragment_splash_screen.xml" value="0.19067028985507245" />
         <entry key="..\:/Kuliah/Semester 5/Android Binar/Chapter 6/Challenge/MovieUpdate/app/src/main/res/layout/item_movie_favorite.xml" value="0.19067028985507245" />
         <entry key="..\:/Kuliah/Semester 5/Android Binar/Chapter 6/Challenge/MovieUpdate/app/src/main/res/layout/item_movie_now_playing.xml" value="0.25" />

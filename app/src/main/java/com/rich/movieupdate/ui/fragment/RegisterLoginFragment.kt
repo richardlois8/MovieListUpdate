@@ -4,6 +4,8 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.IntentSender
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -18,10 +20,22 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.startIntentSenderForResult
 import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.rich.movieupdate.ui.activity.MainActivity
 import com.rich.movieupdate.R
 import com.rich.movieupdate.databinding.FragmentRegisterLoginBinding
@@ -41,6 +55,7 @@ class RegisterLoginFragment : Fragment() {
     private val blurVM : BlurViewModel by lazy {
         BlurViewModel(requireActivity().application)
     }
+    private lateinit var sharedPref : SharedPreferences
     private lateinit var savedUsername : String
     private lateinit var savedPassword : String
     private var image_uri : Uri? = null
@@ -52,6 +67,10 @@ class RegisterLoginFragment : Fragment() {
             blurVM.setImageUri(result)
         }
     private val REQUEST_CODE_PERMISSION = 100
+    private val REQ_ONE_TAP = 2  // Can be any integer unique to the Activity
+    private lateinit var oneTapClient : SignInClient
+    private lateinit var signInRequest : BeginSignInRequest
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,11 +84,13 @@ class RegisterLoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         userVM = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+        (activity as MainActivity).binding.bottomNav.visibility = View.GONE
+        sharedPref = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
         showHideForm()
         setButtonListener()
-
-        (activity as MainActivity).binding.bottomNav.visibility = View.GONE
         getDataUser()
+        auth = FirebaseAuth.getInstance()
+        initGoogleAuth()
     }
 
     private fun getDataUser() {
@@ -91,6 +112,9 @@ class RegisterLoginFragment : Fragment() {
         }
         binding.registerForm.imgProfile.setOnClickListener {
             checkingPermissions()
+        }
+        binding.btnLoginGoogle.setOnClickListener {
+            loginUsingGoogle()
         }
         binding.btnEnglish.setOnClickListener {
             setLocale("en")
@@ -153,10 +177,6 @@ class RegisterLoginFragment : Fragment() {
             binding.loginForm.passwordInput.error = resources.getString(R.string.required_field)
         } else {
             if (username == savedUsername && password == savedPassword) {
-                val sharedPref = requireActivity().getSharedPreferences(
-                    "user",
-                    Context.MODE_PRIVATE
-                )
                 with(sharedPref.edit()) {
                     putString("username", username)
                     apply()
@@ -169,6 +189,77 @@ class RegisterLoginFragment : Fragment() {
                     resources.getString(R.string.login_failed),
                     Toast.LENGTH_SHORT
                 ).show()
+            }
+        }
+    }
+
+    private fun initGoogleAuth(){
+        oneTapClient = Identity.getSignInClient(requireContext())
+        signInRequest = BeginSignInRequest.builder()
+            .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
+                .setSupported(true)
+                .build())
+            .setGoogleIdTokenRequestOptions(
+                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                    .setSupported(true)
+                    // Your server's client ID, not your Android client ID.
+                    .setServerClientId(getString(R.string.client_id))
+                    // Only show accounts previously used to sign in.
+                    .setFilterByAuthorizedAccounts(false)
+                    .build())
+            // Automatically sign in when exactly one credential is retrieved.
+            .setAutoSelectEnabled(true)
+            .build()
+    }
+
+    private fun loginUsingGoogle() {
+        oneTapClient.beginSignIn(signInRequest)
+            .addOnSuccessListener(requireActivity()) { result ->
+                try {
+                    startIntentSenderForResult(
+                        result.pendingIntent.intentSender, REQ_ONE_TAP,
+                        null, 0, 0, 0, null)
+                } catch (e: IntentSender.SendIntentException) {
+                    Log.e("LOGIN GOOGLE", "Couldn't start One Tap UI: ${e.localizedMessage}")
+                }
+            }
+            .addOnFailureListener(requireActivity()) { e ->
+                // No saved credentials found. Launch the One Tap sign-up flow, or
+                // do nothing and continue presenting the signed-out UI.
+                Log.d("LOGIN GOOGLE", e.localizedMessage)
+            }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQ_ONE_TAP -> {
+                try {
+                    val credential = oneTapClient.getSignInCredentialFromIntent(data)
+                    val idToken = credential.googleIdToken
+                    val username = credential.displayName
+                    val email = credential.id
+                    val img = credential.profilePictureUri
+                    val TAG = "LOGIN GOOGLE"
+                    when {
+                        idToken != null -> {
+                            with(sharedPref.edit()) {
+                                putString("idToken", idToken)
+                                putString("username", username)
+                                putString("email",email)
+                                putString("photoUri",img.toString())
+                                apply()
+                            }
+                            gotoHome()
+                        }
+                        else -> {
+                            Log.d(TAG, "No ID token or password!")
+                        }
+                    }
+                } catch (e: ApiException) {
+                    // ...
+                }
             }
         }
     }
