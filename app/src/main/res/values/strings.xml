@@ -36,6 +36,5 @@
     <string name="failed_add_fav">Failed Add to Favorite Movie</string>
     <string name="success_delete_fav">Success Delete from Favorite Movie</string>
     <string name="failed_delete_fav">Failed Delete from Favorite Movie</string>
-    <string name="web_client_id" translatable="false">191253098474-ur4npredqius5ifoo7r7vf2tvf8jc5cf.apps.googleusercontent.com</string>
-    <string name="client_id" translatable="false">191253098474-a16lna4kcgkv70j431pfpaumqr7k6nd9.apps.googleusercontent.com</string>
+    <string name="client_id" translatable="false">961389302674-ogqikutqo0nd3707qkbt0lhp7opvt1vl.apps.googleusercontent.com</string>
 </resources>

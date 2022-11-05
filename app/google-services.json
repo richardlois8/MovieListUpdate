@@ -1,33 +1,115 @@
 {
   "project_info": {
-    "project_number": "191253098474",
-    "project_id": "movielist-324c2",
-    "storage_bucket": "movielist-324c2.appspot.com"
+    "project_number": "961389302674",
+    "project_id": "layar-tancap-8cff2",
+    "storage_bucket": "layar-tancap-8cff2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:191253098474:android:99aa9ea3a85429ba758c93",
+        "mobilesdk_app_id": "1:961389302674:android:9fe463f5221444ee9b274b",
         "android_client_info": {
           "package_name": "com.rich.movielistapi"
         }
       },
       "oauth_client": [
         {
-          "client_id": "191253098474-ur4npredqius5ifoo7r7vf2tvf8jc5cf.apps.googleusercontent.com",
+          "client_id": "961389302674-2ip515ved8t3m995f8ab0ihtsv8fnp3o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rich.movielistapi",
+            "certificate_hash": "14ae967a1be5eee7f99d6f639d768afe5c9aec2f"
+          }
+        },
+        {
+          "client_id": "961389302674-ogqikutqo0nd3707qkbt0lhp7opvt1vl.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBCVHVQskt1qXAq6aFuZMI74DcOtZmEMJY"
+          "current_key": "AIzaSyDE2vfcebboTcanMAv1gl1exVJrwl2B-Mw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "191253098474-ur4npredqius5ifoo7r7vf2tvf8jc5cf.apps.googleusercontent.com",
+              "client_id": "961389302674-ogqikutqo0nd3707qkbt0lhp7opvt1vl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:961389302674:android:a9bd972505f1108d9b274b",
+        "android_client_info": {
+          "package_name": "com.rich.movielistapi.free"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "961389302674-3em5i3qb4moo4eotq9q9gls35agbfj5k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rich.movielistapi.free",
+            "certificate_hash": "14ae967a1be5eee7f99d6f639d768afe5c9aec2f"
+          }
+        },
+        {
+          "client_id": "961389302674-ogqikutqo0nd3707qkbt0lhp7opvt1vl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE2vfcebboTcanMAv1gl1exVJrwl2B-Mw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "961389302674-ogqikutqo0nd3707qkbt0lhp7opvt1vl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:961389302674:android:cc9ffc1d4810b4f89b274b",
+        "android_client_info": {
+          "package_name": "com.rich.movielistapi.paid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "961389302674-fp8h3n0uvrhlfe4thn0gn3o3772uls1e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rich.movielistapi.paid",
+            "certificate_hash": "14ae967a1be5eee7f99d6f639d768afe5c9aec2f"
+          }
+        },
+        {
+          "client_id": "961389302674-ogqikutqo0nd3707qkbt0lhp7opvt1vl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE2vfcebboTcanMAv1gl1exVJrwl2B-Mw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "961389302674-ogqikutqo0nd3707qkbt0lhp7opvt1vl.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
